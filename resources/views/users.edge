@@ -1,0 +1,29 @@
+@layout('layout.master')
+
+@section('content')
+<div class="container mb-4">
+	<div class="row" >
+		<div class="col-md-12 col-sm-4">
+			<div class="row">
+				@each(user in users)
+				<div class="col-md-4">
+					<div class="card">
+						<img class="card-img-top" src="{{ user.avatarpath }}" alt="Card image cap">
+
+							<div class="card-body">
+								<h4 class="card-title"><a href="{{route('userProfile', {user_id: user.id})}}">{{ user.name }}</a></h4>
+								<p><span class="label label-info">888 photos</span> <span class="label label-warning">150 followers</span></p>
+								<p>
+									<a href="#" class="btn btn-outline-dark btn-xs"><i class="far fa-comment"></i> Message</a>
+									<a href="#" data-user-id="{{user.id}}" data-friendship-status="{{ user.isFriend != true ? 'not-following' : 'following' }}"  class="btn btn-outline-dark btn-xs following-link"><i class="fa {{ user.isFriend != true ? 'fa-user-plus' : 'fa-undo' }}"></i> {{ user.isFriend != true ? 'Follow' : 'Unfollow' }}</a>
+								</p>
+							</div>
+					</div>
+				</div>
+				@endeach	
+				
+			</div>
+		</div>
+	</div>
+</div>	
+@endsection

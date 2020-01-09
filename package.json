@@ -1,0 +1,81 @@
+{
+  "name": "adonisjs-hackathon-starter",
+  "version": "4.1.5",
+  "adonis-version": "4.1.5",
+  "description": "A boilerplate for AdonisJS 4.1 web applications.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node  --inspect=9229 server.js",
+    "test": "node ace test",
+    "lint": "standard "
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis-app"
+  ],
+  "author": "Ayeni Olusegun<nsegun5@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/ally": "^2.1.2",
+    "@adonisjs/auth": "^3.0.7",
+    "@adonisjs/bodyparser": "^2.0.9",
+    "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/framework": "^5.0.12",
+    "@adonisjs/ignitor": "^2.0.8",
+    "@adonisjs/lucid": "^6.1.3",
+    "@adonisjs/mail": "^3.0.9",
+    "@adonisjs/session": "^1.0.28",
+    "@adonisjs/shield": "^1.0.8",
+    "@adonisjs/validator": "^5.0.6",
+    "@adonisjs/websocket": "^1.0.12",
+    "@octokit/rest": "^16.13.4",
+    "@slack/client": "^4.8.0",
+    "allyproviders": "https://github.com/iamraphson/AllyProviders/tarball/master",
+    "async": "^2.6.1",
+    "blueimp-md5": "^2.10.0",
+    "cheerio": "^1.0.0-rc.2",
+    "clockwork": "^0.1.4",
+    "cloudinary": "^1.13.2",
+    "fbgraph": "^1.4.4",
+    "github": "^14.0.0",
+    "got": "^9.6.0",
+    "instagram-node": "^0.5.8",
+    "lastfm": "^0.9.3",
+    "lob": "^6.0.4",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mysql": "^2.16.0",
+    "node-foursquare": "^0.4.6",
+    "node-instagram": "^4.3.0",
+    "node-linkedin": "^0.5.6",
+    "paypal-rest-sdk": "^1.8.1",
+    "pg": "^7.8.0",
+    "rand-token": "^0.4.0",
+    "request": "^2.88.0",
+    "sqlite3": "^4.1.1",
+    "stripe": "^6.22.0",
+    "tumblr.js": "^2.0.0",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "globals": [
+      "use",
+      "make"
+    ]
+  },
+  "engines": {
+    "node": "10.x",
+    "npm": "6.X"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamraphson/adonisjs-hackathon-starter.git"
+  }
+}
