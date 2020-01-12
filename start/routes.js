@@ -48,6 +48,7 @@ Route.group(() => {
   Route.get('/user/follow/:friend_id', 'FriendController.follow').as('user.follow')
   Route.get('/user/unfollow/:friend_id', 'FriendController.unfollow').as('user.unfollow')
 
+	Route.get('/user/chats', 'UserController.getUserChats').as('user.chats')
 
 
 }).middleware(['auth'])

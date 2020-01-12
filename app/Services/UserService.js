@@ -9,7 +9,7 @@ const Env = use('Env')
 const moment = require('moment')
 const cloudinary = require('cloudinary').v2
 const friend = use('App/Models/Friend')
-
+const chats = use('App/Models/Chat')
 
 class UserService {
   async register (userInfo) {
@@ -193,7 +193,23 @@ class UserService {
       await user.delete()
     }
   }
-
+	
+	//Merr te gjitha sesionet e chateve per nje perdorues
+	async getUserChats(loginUser){
+		const chatsSessions = await chats.query().where({from_user: loginUser}) .orWhere({to_user: loginUser}).fetch()
+		
+		return chatsSessions;
+	}
+	
+	//Merr komunikimet per nje sesion cati
+	async getChatSession(){
+		
+	}
+	
+	async getActiveChatSessions(){
+		
+	}
+	
 	async  unFollow(loginUser, friendId){
 		await friend.query().where({user_id: loginUser.id, friend_id: friendId}) .delete()
 	}

@@ -23,6 +23,20 @@ class UserController {
       response.redirect('/login')
     }
   }	
+  
+	async getUserChats({ auth, request, response }){
+		try {
+			const authUser = await auth.getUser()
+			const chats = await userService.getUserChats(authUser.id)
+			
+			response.type('application/json')
+			response.send(chats.toJSON())
+		}
+		catch (e) {
+			console.log(e)
+			response.send('{"error"}')
+		}
+	}
 	
 }
 
