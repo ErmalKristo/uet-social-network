@@ -19,7 +19,7 @@ class FriendController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ auth,request,  response, view }) {
+  async index ({ auth, request, response, view }) {
     try {
       const loginID = await auth.getUser()
       const userFriends = await users.getUserFriends(loginID)
@@ -27,9 +27,8 @@ class FriendController {
     } catch (e) {
       console.log(e)
       response.redirect('/login')
-    }	  
+    }
   }
-
 
   /**
    * Follow a new friend.
@@ -38,24 +37,21 @@ class FriendController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async follow ({ auth, request, response,params }) {
+  async follow ({ auth, request, response, params }) {
     try {
-		const loginID = await auth.getUser()	
-		const friend_id = params.friend_id;
+      const loginID = await auth.getUser()
+      const friend_id = params.friend_id
 
-		if(friend_id == loginID.id) {
-			return response.json({'error': 'Ju nuk mund te beni follow veteveten!'})
-		}
-		await users.followUser(loginID, friend_id)
-		
-		return response.json({'success': '200','message': 'U shtua me sukses'}) 
+      if (friend_id == loginID.id) {
+        return response.json({ 'error': 'Ju nuk mund te beni follow veteveten!' })
+      }
+      await users.followUser(loginID, friend_id)
+
+      return response.json({ 'success': '200', 'message': 'U shtua me sukses' })
     } catch (e) {
-		console.log(e)
-
-    }		
+      console.log(e)
+    }
   }
-
-
 
   /**
    * Unfollow a new friend.
@@ -66,26 +62,25 @@ class FriendController {
    */
   async unfollow ({ request, response }) {
     try {
-	const friend_id = request.only(['user_id']);
-	const friend = await users.findUserById(friend_id)
+      const friend_id = request.only(['user_id'])
+      const friend = await users.findUserById(friend_id)
     } catch (e) {
       console.log(e)
-
-    }		
+    }
   }
 
-  async userProfile ({ request, view, response,params }) {
+  async userProfile ({ request, view, response, params }) {
     try {
-		const user_id = params.user_id;
-		const user = await users.findUserById(user_id)
+      const user_id = params.user_id
+      const user = await users.findUserById(user_id)
 
-		return view.render('account.user_profile', { user: user })
+      return view.render('account.user_profile', { user: user })
     } catch (e) {
       console.log(e)
-	  return 
-      //response.redirect('/login')
+
+      // response.redirect('/login')
     }
-  }	
+  }
 
   /**
    * Create/save a new friend.
@@ -97,9 +92,6 @@ class FriendController {
    */
   async store ({ request, response }) {
   }
-
-
-
 
   /**
    * Delete a friend with id.

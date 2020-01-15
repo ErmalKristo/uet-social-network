@@ -34,14 +34,11 @@ class UserService {
     return user
   }
 
-
   async getUsers () {
     const users = await User.query().fetch()
-	
+
     return users
   }
-  
-  
 
   async findOrCreateToken (user) {
     await Database.table('password_resets').where('email', user.email).delete()
@@ -163,20 +160,18 @@ class UserService {
   }
 
   async getUserFriends (loginID) {
-
     const userFriends = await loginID.friends().fetch()
 
     return userFriends.toJSON()
   }
-  
-	async userHasFriend(loginID, friendId){
-		const userFriends = await loginID.friends().where({friend_id: friendId}).getCount()
-		if(userFriends) {
-			return true
-		}
-		return false
 
-	}
+  async userHasFriend (loginID, friendId) {
+    const userFriends = await loginID.friends().where({ friend_id: friendId }).getCount()
+    if (userFriends) {
+      return true
+    }
+    return false
+  }
 
   async unlinkAccount (provider, loginID) {
     const userProfile = await UsersProfile.query().where({ provider, user_id: loginID.id }).first()
@@ -193,44 +188,43 @@ class UserService {
       await user.delete()
     }
   }
-	
-	//Merr te gjitha sesionet e chateve per nje perdorues
-	async getUserChats(loginUser){
-		const chatsSessions = await chats.query().where({from_user: loginUser}) .orWhere({to_user: loginUser}).fetch()
-		
-		return chatsSessions;
-	}
-	
-	//Merr komunikimet per nje sesion cati
-	async getChatSession(){
-		
-	}
-	
-	async getActiveChatSessions(){
-		
-	}
-	
-	async  unFollow(loginUser, friendId){
-		await friend.query().where({user_id: loginUser.id, friend_id: friendId}) .delete()
-	}
 
-	async  follow(loginUser, friendId){
-			const Friend = new friend()
-			Friend.friend_id = friendId
-			Friend.user_id = loginUser.id
-			await Friend.save()
-	}
-	
-	async followUser(loginUser, friendId){
-		const isFriend = await this.userHasFriend(loginUser, friendId)
-		if(!isFriend)  {
-			await this.follow(loginUser, friendId)
-		} else 
-		{
-			await this.unFollow(loginUser, friendId)
-		}
-	}
-	
+  // Merr te gjitha sesionet e chateve per nje perdorues
+  async getUserChats (loginUser) {
+    const chatsSessions = await chats.query().where({ from_user: loginUser }).orWhere({ to_user: loginUser }).fetch()
+
+    return chatsSessions
+  }
+
+  // Merr komunikimet per nje sesion cati
+  async getChatSession () {
+
+  }
+
+  async getActiveChatSessions () {
+
+  }
+
+  async unFollow (loginUser, friendId) {
+    await friend.query().where({ user_id: loginUser.id, friend_id: friendId }).delete()
+  }
+
+  async follow (loginUser, friendId) {
+    const Friend = new friend()
+    Friend.friend_id = friendId
+    Friend.user_id = loginUser.id
+    await Friend.save()
+  }
+
+  async followUser (loginUser, friendId) {
+    const isFriend = await this.userHasFriend(loginUser, friendId)
+    if (!isFriend) {
+      await this.follow(loginUser, friendId)
+    } else {
+      await this.unFollow(loginUser, friendId)
+    }
+  }
+
   async uploadToCloudinary (tmpPath) {
     console.log('** File Upload')
     const image = await cloudinary.uploader.upload(tmpPath, {})

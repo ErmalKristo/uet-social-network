@@ -37,7 +37,7 @@ class User extends Model {
 
   friends () {
   //  return this.hasMany('App/Models/Friend', 'id', 'user_id')
-    return this.manyThrough('App/Models/Friend', 'friendsProfile','id', 'user_id')
+    return this.manyThrough('App/Models/Friend', 'friendsProfile', 'id', 'user_id')
   }
 }
 

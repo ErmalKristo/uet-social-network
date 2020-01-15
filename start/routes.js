@@ -31,11 +31,10 @@ Route.post('/password/reset', 'Auth/PasswordController.reset').as('reset.passwor
 Route.get('/contact', 'ContactController.index').as('contact.show')
 Route.post('/contact', 'ContactController.sendMessage').as('contact.send')
 
-
 Route.group(() => {
   Route.get('/account', 'AccountController.edit').as('user.account')
   Route.get('/account/friends', 'FriendController.index').as('user.friends')
-  
+
   Route.get('/users', 'UserController.index').as('users').middleware('auth')
   Route.get('/user/profile/:user_id', 'FriendController.userProfile').as('userProfile')
 
@@ -44,13 +43,11 @@ Route.group(() => {
   Route.post('/account/password', 'AccountController.changePassword').as('account.updatePwd')
   Route.get('/account/unlink/:provider', 'AccountController.unlinkSocialMediaAccount').as('unlink.sm')
   Route.get('/account/delete', 'AccountController.destroy').as('account.delete')
-  
+
   Route.get('/user/follow/:friend_id', 'FriendController.follow').as('user.follow')
   Route.get('/user/unfollow/:friend_id', 'FriendController.unfollow').as('user.unfollow')
 
-	Route.get('/user/chats', 'UserController.getUserChats').as('user.chats')
-
-
+  Route.get('/user/chats', 'UserController.getUserChats').as('user.chats')
 }).middleware(['auth'])
 
 Route.get('/api', async ({ view }) => view.render('api'))
