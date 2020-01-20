@@ -39,7 +39,9 @@
 		
 		@!section('content')
 		
-		@!include('partials.chat')
+		@loggedIn
+			@!include('partials.chat')
+		@endloggedIn
 		@!include('partials.footer')
 		
 

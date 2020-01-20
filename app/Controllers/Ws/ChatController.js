@@ -14,11 +14,11 @@ class ChatController {
     sender.then(useri => {
 
       this.saveChat(message).then(chat => {
-        message['name'] = useri.name
-        message['avatar'] = useri.avatar
-        message['created_at'] = chat.created_at
+        chat['name'] = useri.name
+        chat['avatar'] = useri.avatar
+        chat['created_at'] = chat.created_at
 
-        _this.socket.broadcastToAll('message', message)
+        _this.socket.broadcastToAll('message', chat)
       })
     })
   }

@@ -23,7 +23,21 @@ class FriendController {
     try {
       const loginID = await auth.getUser()
       const userFriends = await users.getUserFriends(loginID)
-      return view.render('friends', { userFriends: userFriends })
+
+      for (let key in userFriends.rows) {
+		 
+        if (userFriends.rows.hasOwnProperty(key)) {
+          
+		  let TotalFollowing = await userFriends.rows[key].following().fetch()
+		  userFriends.rows[key]['totalFollowing'] = TotalFollowing.rows.length
+		  
+		  let TotalFollowed = await userFriends.rows[key].followed().fetch()
+		  userFriends.rows[key]['totalFollowed'] = TotalFollowed.rows.length
+		  
+		}
+      }	  
+	  
+      return view.render('friends', { userFriends: userFriends.toJSON() })
     } catch (e) {
       console.log(e)
       response.redirect('/login')

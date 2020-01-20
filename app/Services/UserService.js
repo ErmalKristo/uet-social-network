@@ -1,6 +1,8 @@
 
 const User = use('App/Models/User')
+const OpenChat = use('App/Models/OpenChat')
 const UsersProfile = use('App/Models/UsersProfile')
+const Posts = use('App/Models/Post')
 const Hash = use('Hash')
 const randtoken = require('rand-token')
 
@@ -121,6 +123,7 @@ class UserService {
 
     return user_
   }
+  
 
   async findUserById (id) {
     const user = await User.find(id)
@@ -160,13 +163,13 @@ class UserService {
   }
 
   async getUserFriends (loginID) {
-    const userFriends = await loginID.friends().fetch()
+    const userFriends = await loginID.following().fetch()
 
-    return userFriends.toJSON()
+    return userFriends
   }
 
   async userHasFriend (loginID, friendId) {
-    const userFriends = await loginID.friends().where({ friend_id: friendId }).getCount()
+    const userFriends = await loginID.following().where({ friend_id: friendId }).getCount()
     if (userFriends) {
       return true
     }
@@ -191,20 +194,69 @@ class UserService {
 
   // Merr te gjitha sesionet e chateve per nje perdorues
   async getUserChats (loginUser) {
-    const chatsSessions = await chats.query().where({ from_user: loginUser }).orWhere({ to_user: loginUser }).fetch()
+	 //Marrim sesionet aktive
+	 try {
+    const activeSessions = await this.getActiveChatSessions(loginUser)
 
-    return chatsSessions
+	let activeUserIds = activeSessions.rows.map(session => session.friend_id)
+
+	if (activeUserIds.length > 0) {
+		const chatsSessions = await chats.query().where(function(){
+			this.where('from_user', loginUser ).whereIn('to_user',  activeUserIds)
+		}).orWhere(function(){
+			this.whereIn('from_user', activeUserIds).where('to_user', loginUser)
+		}).fetch()
+
+		return chatsSessions		
+	
+	}
+	return []
+    } catch (e) {
+      console.log(e)
+	  return JSON.stringify(e)
+    }
+
   }
 
   // Merr komunikimet per nje sesion cati
-  async getChatSession () {
-
+  async getChatSessionWithUser (loginUser, FriendId) {
+	  this.openChat(loginUser, FriendId)
+	 const chatsSessions = await chats.query().where(function(){
+			this.where({ from_user: loginUser }).orWhere({ to_user: loginUser })
+	       }).where(function(){
+			   this.where({ from_user: FriendId }).orWhere({ to_user: FriendId })
+		   })
+			.fetch()
+	return chatsSessions
   }
 
-  async getActiveChatSessions () {
-
+  async getActiveChatSessions (loginUser) {
+    const queryResponse = await OpenChat.query().where({ user_id: loginUser }).fetch()
+	
+	return queryResponse;
   }
 
+  //Caktivizon nje sesion chati ne menyre qe mos te shfaqet dritarja e chatit 
+  closeChat(loginUser, FriendId){
+	  const queryResponse = OpenChat.query().where({ user_id: loginUser, friend_id: FriendId }).delete()
+	  queryResponse.then((response) => {
+		  console.log(response)
+	  })
+  }
+
+ //Krijon nje sesion te ri chati
+  async openChat(loginUser, FriendId){
+	  const OpenChatSession = await OpenChat.query().where({ user_id: loginUser, friend_id: FriendId }).count('* as total')
+	  if(OpenChatSession[0].total > 0) {
+		  return
+	  }
+	  const newChatSession = new OpenChat()
+	  newChatSession.user_id = loginUser
+	  newChatSession.friend_id = FriendId
+	  
+	  newChatSession.save()
+  }
+  
   async unFollow (loginUser, friendId) {
     await friend.query().where({ user_id: loginUser.id, friend_id: friendId }).delete()
   }
@@ -225,6 +277,39 @@ class UserService {
     }
   }
 
+  async createPost(userId, postimi){
+	  
+	  const post = new Posts()
+	  post.user_id = userId
+	  post.post_text = postimi
+	  
+	  await post.save()
+	  
+	  return post
+  }
+
+  async likePost(userId, postimi){
+	  
+	  const post = await this.getPostById(postimi)
+	  post.pelqime++
+
+	  await post.save()
+	  
+	  return  post.pelqime
+  }
+  
+  async getPostById(postId){
+	  const post = await Posts.query().where('id',postId).first()
+	  
+	  return post
+  }
+  
+  async getPosts(){
+	  const posts = await Posts.query().orderBy('id', 'desc').with(['user']).fetch()
+	  
+	  return posts
+  }
+  
   async uploadToCloudinary (tmpPath) {
     console.log('** File Upload')
     const image = await cloudinary.uploader.upload(tmpPath, {})

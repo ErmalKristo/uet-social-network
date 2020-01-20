@@ -2,30 +2,80 @@
 
 @section('content')
 <div class="container mb-4">
-	<h1 class="my-4">Hackathon Starter</h1>
-	<p class="lead">A boilerplate for AdonisJs web applications.</p>
-	<hr>
-	<div class="row">
-		<div class="col-sm-6">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-			<p><a class="btn btn-primary" href="#" role="button">View details ?</a></p>
-		</div>
-		<div class="col-sm-6">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-			<p><a class="btn btn-primary" href="#" role="button">View details ?</a></p>
-		</div>
-		<div class="col-sm-6">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-			<p><a class="btn btn-primary" href="#" role="button">View details ?</a></p>
-		</div>
-		<div class="col-sm-6">
-			<h2>Heading</h2>
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-			<p><a class="btn btn-primary" href="#" role="button">View details ?</a></p>
-		</div>
-	</div>
+          <div class="col-md-6 gedf-main">
+				@if(auth.user.id)
+                <!--- \\\\\\\Post-->
+                <div class="card gedf-card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="ml-2">
+                                    <div class="h5 m-0">Bej nje postim.</div>
+                                </div>
+                            </div>
+                            <div>
+               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                                <div class="form-group">
+                                    <label class="sr-only" for="message">post</label>
+									{{ csrfField() }}
+                                    <textarea class="form-control" id="message" rows="3" placeholder="Cfare po mendon?"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="btn-toolbar justify-content-between">
+                            <div class="btn-group">
+                                <button type="submit" id="post-message" class="btn btn-primary">Publiko</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Post /////-->
+				@endif
+				
+				@each(post in posts)
+                <!--- \\\\\\\Post-->
+                <div class="card gedf-card" data-post-id={{post.id}}>
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="45" src="{{post.user.avatar}}" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="h5 m-0">{{post.user.name}}</div>
+									<div class="h7 text-muted"><span class="pelqime">{{post.pelqime}}</span> Pelqime</div>
+                                </div>
+                            </div> 
+                            <div>
+               
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>{{post.created_at}}</div>
+
+                        <p class="card-text">
+                            {{post.post_text}}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="card-link" ><i class="fa fa-heart"></i> Pelqe</a>
+                    </div>
+                </div>
+                <!-- Post /////-->
+				@endeach
+
+
+
+
+            </div>
 </div>
 @endsection

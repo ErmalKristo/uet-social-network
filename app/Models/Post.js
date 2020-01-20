@@ -3,14 +3,10 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class Friend extends Model {
+class Post extends Model {
   user () {
     return this.belongsTo('App/Models/User')
   }
-
-  friendsProfile () {
-    return this.hasOne('App/Models/User', 'friend_id', 'id')
-  }
 }
 
-module.exports = Friend
+module.exports = Post

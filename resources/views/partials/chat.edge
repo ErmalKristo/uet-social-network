@@ -34,7 +34,8 @@
 </div>
 <script>
     window.username = '{{ auth.user.id }}'
-		window.myavatar = '{{auth.user.toJSON().avatarpath}}'
+	window.myavatar = '{{auth.user.toJSON().avatarpath}}'
+	window.userName= '{{auth.user.name}}'
 </script>
 
 {{ script('https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js') }}

@@ -32,10 +32,11 @@ Route.get('/contact', 'ContactController.index').as('contact.show')
 Route.post('/contact', 'ContactController.sendMessage').as('contact.send')
 
 Route.group(() => {
+	  
   Route.get('/account', 'AccountController.edit').as('user.account')
   Route.get('/account/friends', 'FriendController.index').as('user.friends')
 
-  Route.get('/users', 'UserController.index').as('users').middleware('auth')
+  Route.get('/users', 'UserController.index').as('users')
   Route.get('/user/profile/:user_id', 'FriendController.userProfile').as('userProfile')
 
   Route.post('/account/profile', 'AccountController.update').as('account.update')
@@ -48,6 +49,14 @@ Route.group(() => {
   Route.get('/user/unfollow/:friend_id', 'FriendController.unfollow').as('user.unfollow')
 
   Route.get('/user/chats', 'UserController.getUserChats').as('user.chats')
+  Route.get('/user/singlechats/:user_id', 'UserController.getChatSession')
+  
+  Route.get('/user/closechat/:user_id', 'UserController.closeChat').as('user.closeChat')
+  
+  Route.post('/user/post-message', 'UserController.createPost').as('user.createPost')
+  Route.post('/user/post-message/like', 'UserController.likePost').as('user.likePost')
+
+  
 }).middleware(['auth'])
 
 Route.get('/api', async ({ view }) => view.render('api'))

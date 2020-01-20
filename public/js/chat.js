@@ -16,11 +16,27 @@ function startChat () {
 
   ws.on('open', () => {
     subscribeToChannel()
+	$('.chat-init').click(function(e){
+		e.preventDefault()
+
+		let friendId = $(this).attr('data-user-id')
+
+		if(checkChatStatus(friendId)){
+			$('div[data-user-id=' + friendId + '] > .chatbox__title').click()
+		} else {
+			getUserChats(friendId)
+		}
+	})
   })
 
   ws.on('error', () => {
 
   })
+}
+
+
+function checkChatStatus(friendId){
+	return $('div[data-user-id=' + friendId + '].chatbox').length > 0
 }
 
 function subscribeToChannel () {
@@ -31,11 +47,8 @@ function subscribeToChannel () {
   })
 
   chat.on('message', (message) => {
-    console.log(message)
-    selfMessage(message)
-    // $('.messages').append(`
-    // <div class="message"><h3> ${message.username} </h3> <p> ${message.body} </p> </div>
-    // `)
+    renderChats([message])
+
   })
 }
 
@@ -63,14 +76,26 @@ function selfMessage (message) {
 		</div>
 	`)
 
-  scrollToBottom()
+  
 }
 
 function getChats () {
   $.getJSON('/user/chats', function (response) {
-    // console.log(response)
     renderChats(response)
   })
+}
+
+function getUserChats(userId){
+  $.getJSON('/user/singlechats/'+userId, function (response) {
+    // console.log(response)
+    renderChats(response)
+  })	
+}
+
+function closeChat(friendId){
+  $.getJSON('/user/closechat/'+friendId, function (response) {
+    console.log(response)
+  })	
 }
 
 function renderChats (chatsList) {
@@ -83,6 +108,7 @@ function renderChats (chatsList) {
     } else {
       friendMessage(friendId, chatsList[i])
     }
+	scrollToBottom()
   }
 }
 
@@ -109,7 +135,10 @@ function initChat (friendId) {
     $chatbox.addClass('chatbox--closed')
   })
   $chatbox.on('transitionend', function () {
-    if ($chatbox.hasClass('chatbox--closed')) $chatbox.remove()
+    if ($chatbox.hasClass('chatbox--closed')) {
+		$chatbox.remove()
+		closeChat(friendId)
+	}	
   })
 
   $('div[data-user-id=' + friendId + ']').find('#chat-input').keyup(function (e) {
@@ -121,14 +150,14 @@ function initChat (friendId) {
 
   $('div[data-user-id=' + friendId + ']').find('#btn-chat').click(function (e) {
     e.preventDefault()
-    const message = $('#chat-input').val()
-    $('div[data-user-id=' + friendId + ']').find('#chat-input').val('')
-    let receiver = $(e.target).closest('.chatbox').attr('data-user-id')
+    const message =  $('div[data-user-id=' + friendId + ']').find('#chat-input').val()
+
     ws.getSubscription('chat').emit('message', {
       sender: window.username,
-      receiver: receiver,
+      receiver: friendId,
       body: message
     })
+	$('div[data-user-id=' + friendId + ']').find('#chat-input').val('')
   })
 }
 
@@ -151,7 +180,6 @@ function getMaxRight () {
 }
 
 function myMessage (friendId, message) {
-  console.log(message)
   $('div[data-user-id=' + friendId + '] > .chatbox__body').append(`
 		<div class="chatbox__body__message chatbox__body__message--right">
 		
@@ -174,6 +202,7 @@ function myMessage (friendId, message) {
 			 
 		</div>
 	`)
+
 }
 
 function friendMessage (friendId, message) {

@@ -34,11 +34,22 @@ class User extends Model {
   profile () {
     return this.hasMany('App/Models/UsersProfile', 'id', 'user_id')
   }
+  
+  openChats(){
+	  return this.hasMany('App/Models/OpenChat', 'id', 'user_id')
+  }
 
-  friends () {
+  following () {
   //  return this.hasMany('App/Models/Friend', 'id', 'user_id')
     return this.manyThrough('App/Models/Friend', 'friendsProfile', 'id', 'user_id')
   }
+
+  followed () {
+  //  return this.hasMany('App/Models/Friend', 'id', 'user_id')
+    return this.manyThrough('App/Models/Friend', 'user', 'id', 'friend_id')
+  }
+  
+  
 }
 
 module.exports = User

@@ -8,13 +8,13 @@
 				@each(friend in userFriends)
 				<div class="col-md-4">
 					<div class="card">
-						<img class="card-img-top" src="{{ friend.avatarpath }}" alt="Card image cap">
+						<img class="card-img-top" src="{{ friend.avatarpath }}" height="185px" alt="Card image cap">
 
 							<div class="card-body">
 								<h4 class="card-title"><a href="{{route('userProfile', {user_id: friend.id})}}">{{ friend.name }}</a></h4>
-								<p><span class="label label-info">888 photos</span> <span class="label label-warning">150 followers</span></p>
+								<p><span class="label label-info">Ndiqet nga {{friend.totalFollowed | 0}} </span> <span class="label label-warning">Ndjek {{friend.totalFollowing | 0}}</span></p>
 								<p>
-									<a href="#" class="btn btn-outline-dark btn-xs"><i class="far fa-comment"></i> Message</a>
+									<a href="#" data-user-id="{{friend.id}}" class="chat-init btn btn-outline-dark btn-xs"><i class="far fa-comment"></i> Message</a>
 									<a href="#" data-user-id="{{friend.id}}" data-friendship-status="following" class="btn btn-outline-dark btn-xs following-link"><i class="fa fa-undo"></i> Unfollow</a>
 								</p>
 							</div>

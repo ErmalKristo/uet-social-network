@@ -8,14 +8,14 @@
 				@each(user in users)
 				<div class="col-md-4">
 					<div class="card">
-						<img class="card-img-top" src="{{ user.avatarpath }}" alt="Card image cap">
+						<img class="card-img-top" src="{{ user.avatarpath }}" height="185px" alt="Card image cap">
 
 							<div class="card-body">
 								<h4 class="card-title"><a href="{{route('userProfile', {user_id: user.id})}}">{{ user.name }}</a></h4>
-								<p><span class="label label-info">888 photos</span> <span class="label label-warning">150 followers</span></p>
+								<p><span class="label label-info">Ndiqet nga {{user.totalFollowed}} </span> <span class="label label-warning">Ndjek {{user.totalFollowing}}</span></p>
 								<p>
-									<a href="#" class="btn btn-outline-dark btn-xs"><i class="far fa-comment"></i> Message</a>
-									<a href="#" data-user-id="{{user.id}}" data-friendship-status="{{ user.isFriend != true ? 'not-following' : 'following' }}"  class="btn btn-outline-dark btn-xs following-link"><i class="fa {{ user.isFriend != true ? 'fa-user-plus' : 'fa-undo' }}"></i> {{ user.isFriend != true ? 'Follow' : 'Unfollow' }}</a>
+									<a href="#" data-user-id="{{user.id}}" class="chat-init btn btn-outline-dark btn-xs {{ user.id == auth.user.id ? 'disabled' : '' }}" ><i class="far fa-comment"></i> Message</a>
+									<a href="#" data-user-id="{{user.id}}" data-friendship-status="{{ user.isFriend != true ? 'not-following' : 'following' }}"  class="btn btn-outline-dark btn-xs following-link  {{ user.id == auth.user.id ? 'disabled' : '' }}"><i class="fa {{ user.isFriend != true ? 'fa-user-plus' : 'fa-undo' }}"></i> {{ user.isFriend != true ? 'Follow' : 'Unfollow' }}</a>
 								</p>
 							</div>
 					</div>
