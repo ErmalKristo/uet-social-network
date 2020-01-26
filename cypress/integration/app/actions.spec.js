@@ -7,7 +7,7 @@ context('Authentication', () => {
   it('Login - Login me email dhe password', () => {
 	cy.visit('http://localhost:3333/login')
     cy.get('#email').type('kristoeri82@gmail.com')
-    cy.get('#password').type('ErmalI82')
+    cy.get('#password').type('ermal2020')
     cy.get('button[type=submit]').click()
 	
 	cy.get('#navbarDropdownMenuLink').should('contain.text', 'Ermal Kristo');
@@ -31,7 +31,7 @@ context('Friends', () => {
   it('Login - Login me email dhe password', () => {
 	cy.visit('http://localhost:3333/login')
     cy.get('#email').type('kristoeri82@gmail.com')
-    cy.get('#password').type('ErmalI82')
+    cy.get('#password').type('ermal2020')
     cy.get('button[type=submit]').click()
 	
 	cy.get('#navbarDropdownMenuLink').should('contain.text', 'Ermal Kristo');
@@ -58,7 +58,7 @@ context('Friends', () => {
   it('Perdoruesit - Validon perdorimin e nje adrese emaili te sakte ne profil ', () => {
 	cy.visit('http://localhost:3333/login')
     cy.get('#email').type('kristoeri82@gmail.com')
-    cy.get('#password').type('ErmalI82')
+    cy.get('#password').type('ermal2020')
     cy.get('button[type=submit]').click()
 	
 	cy.get('#navbarDropdownMenuLink').should('contain.text', 'Ermal Kristo');	  
