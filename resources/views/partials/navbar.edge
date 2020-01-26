@@ -15,17 +15,16 @@
       @loggedIn
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="{{ auth.user.toJSON().avatarpath }}" style="width: 1.9rem; height: 1.9rem; margin-right: 0.5rem" class="rounded-circle">
-            {{ auth.user.name }} <span class="caret"></span>
+            <img src="{{ auth.user.toJSON().avatarpath }}" style="width: 1.9rem; height: 1.9rem; margin-right: 0.5rem" class="rounded-circle"> {{ auth.user.name }} <span class="caret"></span>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="{{ route('user.account') }}"><i class="fa fa-btn fa-user"></i> My Account</a>
-            <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a>
+            <a class="dropdown-item" id="logout" href="{{ route('logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a>
           </div>
         </li>
       @else
         <li class="nav-item">
-          <a class="btn btn-outline-warning my-2 my-sm-0 mr-sm-2" href="{{ route('loginPage') }}" role="button">
+          <a class="btn btn-outline-warning my-2 my-sm-0 mr-sm-2" id="login" href="{{ route('loginPage') }}" role="button">
             Login
           </a>
         </li>

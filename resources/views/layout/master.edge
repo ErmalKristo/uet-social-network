@@ -50,7 +50,9 @@
 		{{ script('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js') }}
 		{{ script('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js') }}
 		{{ script('js/functions.js') }}
-		{{ script('js/chat.js') }}
+		@loggedIn
+			{{ script('js/chat.js') }}
+		@endloggedIn
 		</div>
 		<script>
 			$("#menu-toggle").click(function(e) {
